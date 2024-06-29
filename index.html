@@ -1,0 +1,92 @@
+<!-- ThreatSense web page design and configurations-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- external stylesheet for font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    
+    <!-- Here is the CSS part where all the website design happens-->
+    <!-- lots of trial and error made for the perfect page alignment-->
+    <style>
+        body {
+            background-image: url('/static/threat_bg.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: rgb(35, 233, 240);
+            font-family: 'Roboto', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            height: 100vh; 
+        }
+        #container {
+            position: absolute; 
+            right: 0; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 50%; 
+            text-align: center;
+        }
+        .form-container {
+            margin: 0 auto;
+            width: 100%; 
+            max-width: 400px; 
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        input[type="submit"] {
+            background-color: rgb(35, 233, 240);
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #697eca;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #697eca;
+            background-color: #697eca;
+            color: #ffffff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>  <!-- Setting up the webpage with two user input box and buttons. This part also provides what each button will do.-->
+    <div id="container"> 
+        <h1></h1>
+        <div class="form-container">
+            <h2>Email Threat Detector</h2>
+            <form action="/predict_email" method="post">
+                <textarea name="email_text" rows="4" cols="50" placeholder="Input email text here">{{ email_text|default('') }}</textarea><br>
+                <input type="submit" value="Analyze">
+                {% if email_prediction %}
+                    <p>Email Prediction: {{ email_prediction }}</p>
+                    <p><strong>Input:</strong> {{ email_text }}</p>
+                {% endif %}
+            </form>
+
+            <h2>URL Threat Detector</h2>
+            <form action="/predict_url" method="post">
+                <input type="text" name="url_text" placeholder="Input URL here" value="{{ url_text|default('') }}"><br>
+                <input type="submit" value="Analyze">
+                {% if url_prediction %}
+                    <p>URL Prediction: {{ url_prediction }}</p>
+                    <p><strong>Input:</strong> {{ url_text }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>
